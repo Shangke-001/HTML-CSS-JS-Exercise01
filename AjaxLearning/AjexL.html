@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajex Learning</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .filled{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .btnRequest, .postText, .getJson{
+            margin: 5px 5px;
+            width: 150px;
+            height:30px;
+            text-align: center;
+            line-height: 30px;
+        }
+        #responseArea, #postResult, #jsonResult{
+            background-color: #eee;
+            width: 400px;
+            height:100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="filled">
+        <button class="btnRequest">点击发送GET请求</button>
+        <div id="responseArea"></div>
+        <div class="postText">mouseover发送POST请求</div>
+        <div id="postResult"></div>
+        <div class="getJson">window下按下enter响应JSON数据</div>
+        <div id="jsonResult"></div>
+    </div>
+    <script src="AjexL.js" type="text/javascript"></script>
+</body>
+</html>
