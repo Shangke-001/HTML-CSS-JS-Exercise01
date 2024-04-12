@@ -97,3 +97,112 @@ window.addEventListener('keydown',(event)=>{
         }
     }
 })
+
+//超时与网络异常处理    点击发送GET请求
+const btnTOE=document.querySelector('#timeoutOrErrorBtn');
+const toeResult=document.querySelector('#timeoutOrError');
+btnTOE.addEventListener('click',()=>{
+    const xhr=new XMLHttpRequest();
+    xhr.timeout=2000;
+    xhr.open('GET', 'http://127.0.0.1:8000/delay-sever');
+    xhr.send();
+    xhr.onreadystatechange=function(){
+        if(xhr.readyState===4){
+            if(xhr.status>=200 && xhr.status<300){
+                toeResult.innerHTML=xhr.response;
+            }
+        }
+    }
+    xhr.ontimeout=function(){
+        toeResult.innerHTML='TimeOut 2s';
+    }
+    xhr.onerror=function(){
+        toeResult.innerHTML='Network Error';
+    }
+})
+
+//Ajax请求发送与手动取消    并解决重复发送问题
+const btnAborts=document.querySelectorAll('#abortRequest');
+const abortResult=document.querySelector('#abortResult');
+let xa=null;
+let flagIsSending=false;
+btnAborts[0].addEventListener('click',()=>{
+    if(flagIsSending==true){
+        xa.abort();
+    }
+    xa=new XMLHttpRequest();
+    flagIsSending=true;
+    xa.open('GET', 'http://127.0.0.1:8000/delay-sever');
+    xa.send();
+    xa.onreadystatechange=function(){
+        if(xa.readyState===4){
+            if(xa.status>=200 && xa.status<300){
+                abortResult.innerHTML=xa.response;
+            }
+            flagIsSending=false;
+        }
+    }
+})
+btnAborts[1].addEventListener('click',()=>{
+    xa.abort();
+    flagIsSending=false;
+    abortResult.innerHTML='Request cancle';
+})
+
+//Axios发送Ajax请求  Vue和React推荐的工具包
+const btnAxioss=document.querySelectorAll('#axiosTry');
+const axiosResult=document.querySelector('#axiosResult');
+axios.defaults.baseURL='http://127.0.0.1:8000';
+btnAxioss[0].addEventListener('click',()=>{
+    axios.get('/sever',{
+        params: {
+            id:100,
+            vip:200,
+        },
+        headers:{
+            a:1,
+            b:2,
+        }
+    })
+    .then(res => {
+        axiosResult.innerHTML=res.data;
+    })
+})
+btnAxioss[1].addEventListener('click',()=>{
+    axios.post('/sever',{
+        height:180,
+        weight:180,
+    },{
+        params: {
+            id:100,
+            vip:200,
+        },
+        headers:{
+            a:1,
+            b:2,
+        }
+    })
+    .then(res => {
+        axiosResult.innerHTML=res.data;
+    })
+})
+btnAxioss[2].addEventListener('click', ()=>[
+    axios({
+        method:'post',
+        url: '/sever',
+        params:{
+            id:100,
+            vip:7,
+        },
+        headers:{
+            a:100,
+            b:200,
+        },
+        data: {
+            height:180,
+            weight:180,
+        }
+    }).then((res)=>{
+        axiosResult.innerHTML=res.data;
+    })
+])

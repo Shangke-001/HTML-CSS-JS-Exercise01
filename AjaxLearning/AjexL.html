@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajex Learning</title>
     <style>
-        body{
+        .content{
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -16,28 +16,45 @@
             justify-content: space-around;
             align-items: center;
         }
-        .btnRequest, .postText, .getJson{
+        .text{
             margin: 5px 5px;
-            width: 150px;
             height:30px;
             text-align: center;
             line-height: 30px;
         }
-        #responseArea, #postResult, #jsonResult{
+        .responseArea{
             background-color: #eee;
             width: 400px;
             height:100px;
         }
     </style>
+    <script crossorigin="anonymous" src="https://cdn.bootcdn.net/ajax/libs/axios/1.5.0/axios.js"></script>
 </head>
 <body>
-    <div class="filled">
-        <button class="btnRequest">点击发送GET请求</button>
-        <div id="responseArea"></div>
-        <div class="postText">mouseover发送POST请求</div>
-        <div id="postResult"></div>
-        <div class="getJson">window下按下enter响应JSON数据</div>
-        <div id="jsonResult"></div>
+    <div class="content">
+        <div class="filled">
+            <button class="btnRequest text">点击发送GET请求</button>
+            <div class="responseArea" id="responseArea"></div>
+            <div class="text">mouseover发送POST请求</div>
+            <div class="responseArea" id="postResult"></div>
+            <div class="text">window下按下enter响应JSON数据</div>
+            <div class="responseArea" id="jsonResult"></div>
+        </div>
+        <div class="filled">
+            <button class="text" id="timeoutOrErrorBtn">超时与网络异常处理</button>
+            <div class="responseArea" id="timeoutOrError"></div>
+            <div class="content">
+                <button class="text" id="abortRequest">重复发送解决</button>
+                <button class="text" id="abortRequest">请求取消</button>
+            </div>
+            <div class="responseArea" id="abortResult"></div>
+            <div class="content">
+                <button class="text" id="axiosTry">Axios GET</button>
+                <button class="text" id="axiosTry">Axios POST</button>
+                <button class="text" id="axiosTry">Axios 通用</button>
+            </div>
+            <div class="responseArea" id="axiosResult"></div>
+        </div>
     </div>
     <script src="AjexL.js" type="text/javascript"></script>
 </body>
