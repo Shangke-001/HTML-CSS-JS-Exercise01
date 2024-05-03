@@ -1,27 +1,27 @@
-.content-filled{
-    padding: 10px 60px;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-auto-rows: auto;
-    gap:20px;
+.content-filled {
+  padding: 10px 60px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: auto;
+  gap: 20px;
 }
-.content-banner{
-    grid-column: 1 / 3;
-    grid-row: 1 / 3;
-    height:400px+10px;
-    overflow: hidden;  /* 超过就隐藏 */
-    position:relative;
+.content-banner {
+  grid-column: 1 / 3;
+  grid-row: 1 / 3;
+  height: 400px+10px;
+  overflow: hidden; /* 超过就隐藏 */
+  position: relative;
 }
-.content-banner-picList{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: float;
-    width: 500%;   /*应该还有别的布局方法，再思考一下*/
-    position: relative;
-    left: -100%;
-    /*transition: left 0.5s ease;  过渡效果*/
-    /* animation: move 5s ease 1s infinite; */
+.content-banner-picList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: float;
+  width: 500%; /*应该还有别的布局方法，再思考一下*/
+  position: relative;
+  left: -100%;
+  /*transition: left 0.5s ease;  过渡效果*/
+  /* animation: move 5s ease 1s infinite; */
 }
 /* @keyframes move {  移动的宽度不知道啊。。。
     0% {
@@ -34,37 +34,37 @@
       transform: translate(calc(-2 * var(--width)));
     }
 } */
-.content-banner-pic{
-    /* height:400px; */
-    background-color: bisque;
-    height: 460px;
-    float:left;
-    width:20%;
-    border-radius: 10px;
+.content-banner-pic {
+  /* height:400px; */
+  background-color: bisque;
+  height: 460px;
+  float: left;
+  width: 20%;
+  border-radius: 10px;
 }
-.content-banner-ui{
-  position:absolute;
-  top:400px;
-  width:100%;
+.content-banner-ui {
+  position: absolute;
+  top: 400px;
+  width: 100%;
   z-index: 5;
   display: flex;
   justify-content: space-between;
 }
-.content-banner-ui-left{
+.content-banner-ui-left {
   margin-left: 15px;
 }
-.content-banner-text{
+.content-banner-text {
   font-size: 16px;
   font-weight: 500;
-  color:white;
+  color: white;
 }
-.content-banner-points{
+.content-banner-points {
   margin-top: 5px;
   display: flex;
   align-items: center;
   opacity: 70%;
 }
-.content-banner-point-index{
+.content-banner-point-index {
   width: 10px;
   height: 10px;
   margin: 0 3px;
@@ -72,46 +72,46 @@
   border-radius: 50%;
   background-color: gray;
 }
-.content-banner-btn{
+.content-banner-btn {
   display: flex;
   flex-direction: row;
   margin-right: 15px;
   opacity: 60%;
 }
-.content-banner-pre{
-  width:30px;
-  height:30px;
+.content-banner-pre {
+  width: 30px;
+  height: 30px;
   margin: 0 3px;
   border-radius: 5px;
   background-color: white;
 }
-.content-banner-next{
-  width:30px;
-  height:30px;
+.content-banner-next {
+  width: 30px;
+  height: 30px;
   margin: 0 3px;
   border-radius: 5px;
   background-color: white;
 }
-.content-item{
+.content-item {
   height: 220px;
   display: flex;
   flex-direction: column;
 }
-.content-item-media{
+.content-item-media {
   height: 160px;
   background-color: #eee;
   border-radius: 10px;
 }
-.content-item-title{
+.content-item-title {
   margin: 6px 5px;
   font-size: 17px;
   font-weight: 540;
-  letter-spacing:1px;
+  letter-spacing: 1px;
 }
-.content-item-upname{
+.content-item-upname {
   margin: 0 5px;
   font-size: 13px;
   font-weight: 400;
-  color:gray;
-  letter-spacing:1px;
+  color: gray;
+  letter-spacing: 1px;
 }

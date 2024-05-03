@@ -206,3 +206,22 @@ btnAxioss[2].addEventListener('click', ()=>[
         axiosResult.innerHTML=res.data;
     })
 ])
+
+//fetch函数发送请求
+const btnFetch=document.querySelector('#fetchBtn');
+const fetchResult=document.querySelector('#fetchResult');
+btnFetch.addEventListener('click', ()=>{
+    fetch('http://127.0.0.1:8000/sever', {
+        method: 'post',
+        headers: {
+            name:'nst',
+            age:19,
+        },
+        body: 'a=1&b=2',
+    }).then(res=>{
+        //console.log(res);
+        return res.text();
+    }).then(res=>{
+        fetchResult.innerHTML=res;
+    })
+})
