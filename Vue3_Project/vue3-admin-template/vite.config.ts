@@ -8,6 +8,8 @@ import VueDevTools from 'vite-plugin-vue-devtools'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
 
 //svg配置
 import path from 'path'
@@ -25,10 +27,23 @@ export default defineConfig(({ command }) => {
 
       //Element-Plus组件库按需引入
       AutoImport({
-        resolvers: [ElementPlusResolver()]
+        resolvers: [
+          ElementPlusResolver(),
+          IconsResolver({
+            prefix: 'Icon'
+          })
+        ]
       }),
       Components({
-        resolvers: [ElementPlusResolver()]
+        resolvers: [
+          ElementPlusResolver(),
+          IconsResolver({
+            enabledCollections: ['ep']
+          })
+        ]
+      }),
+      Icons({
+        autoInstall: true
       }),
       createSvgIconsPlugin({
         // Specify the icon folder to be cached
