@@ -1,5 +1,5 @@
 <template>
-  <h1>首页</h1>
+  <h1>数字大屏</h1>
 </template>
 
 <script setup lang="ts"></script>

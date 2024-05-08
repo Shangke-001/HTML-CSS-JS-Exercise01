@@ -7,7 +7,7 @@ enum API {
 }
 //暴露请求函数
 export const reqLogin = (data: loginForm) => {
-  requestaxios<any, loginResponse>({
+  return requestaxios<any, loginResponse>({
     url: API.LOGIN_URL,
     method: 'post',
     data
@@ -15,7 +15,7 @@ export const reqLogin = (data: loginForm) => {
 }
 
 export const reqUserInfo = () => {
-  requestaxios<any, userInfoResponse>({
+  return requestaxios<any, userInfoResponse>({
     url: API.USERINFO_URL,
     method: 'get'
   })
