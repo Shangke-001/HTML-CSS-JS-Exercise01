@@ -24,4 +24,10 @@ const layoutSettingS = layoutSettingStore()
 const route = useRoute()
 </script>
 
+<script lang="ts">
+export default {
+  name: 'Breadcrumb'
+}
+</script>
+
 <style scoped lang="scss"></style>

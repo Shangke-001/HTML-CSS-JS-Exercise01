@@ -14,13 +14,20 @@ import Breadcrumb from './breadcrumb/index.vue'
 import Setting from './setting/index.vue'
 </script>
 
+<script lang="ts">
+export default {
+  name: 'Tabbar'
+}
+</script>
+
 <style scoped lang="scss">
 .tabbar-container {
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  .tabbar-left {
+  .tabbar-left,
+  .tabbar-right {
     display: flex;
     align-items: center;
   }

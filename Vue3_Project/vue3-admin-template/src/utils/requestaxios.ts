@@ -1,5 +1,6 @@
 //axios二次封装：使用请求与响应拦截器
 import axios from 'axios'
+import { userStore } from '@/stores/modules/user'
 
 const requestaxios = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -10,7 +11,8 @@ const requestaxios = axios.create({
 requestaxios.interceptors.request.use(
   (config) => {
     //发送请求之前，携带公共响应头等
-    //config.headers.token = '123'
+    const userS = userStore()
+    config.headers.token = userS.token
     return config
   },
   (error) => {

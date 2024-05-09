@@ -1,5 +1,5 @@
 export default {
   logoSrc: '/logo.jpg',
-  projectName: 'Vue-admin',
+  projectName: '后台管理',
   logoNameHidden: false
 }

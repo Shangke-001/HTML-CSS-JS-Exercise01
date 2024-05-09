@@ -16,10 +16,14 @@ import path from 'path'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 //mock接口配置
-import { viteMockServe } from 'vite-plugin-mock'
+// import { viteMockServe } from 'vite-plugin-mock'
+
+import { loadEnv } from 'vite'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => {
+export default defineConfig(({ command, mode }) => {
+  //获取各种环境下的对应的变量
+  let env = loadEnv(mode, process.cwd())
   return {
     plugins: [
       vue(),
@@ -50,12 +54,12 @@ export default defineConfig(({ command }) => {
         iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
         // Specify symbolId format
         symbolId: 'icon-[dir]-[name]'
-      }),
-      viteMockServe({
-        // default
-        mockPath: 'mock',
-        enable: true
       })
+      // viteMockServe({
+      // default
+      // mockPath: 'mock',
+      // enable: true
+      // })
     ],
     resolve: {
       alias: {
@@ -67,6 +71,16 @@ export default defineConfig(({ command }) => {
         scss: {
           javascriptEnabled: true,
           additionalData: '@import "./src/styles/variable.scss";'
+        }
+      }
+    },
+    //代理服务器
+    server: {
+      proxy: {
+        [env.VITE_APP_BASE_API]: {
+          target: env.VITE_SERVER,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
         }
       }
     }

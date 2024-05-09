@@ -42,6 +42,9 @@
     <template v-else-if="iconName == 'ArrowDown'">
       <i-ep-arrow-down />
     </template>
+    <template v-else-if="iconName == 'Plus'">
+      <i-ep-plus />
+    </template>
   </el-icon>
 </template>
 

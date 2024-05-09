@@ -7,7 +7,7 @@
       <el-col :span="12" :xs="24">
         <el-card class="login-form">
           <el-form :model="loginInfo" :rules="rules" ref="loginForms">
-            <h1>Vue-Admin项目</h1>
+            <h1>{{ setting.projectName }}项目</h1>
             <h3>尚可-尚硅谷教程</h3>
             <el-form-item prop="username">
               <el-input
@@ -34,7 +34,7 @@
                 class="login-btn"
                 type="primary"
                 size="large"
-                @click="userLogin"
+                @click="onUserLogin"
                 :loading="isLoading"
                 >登录</el-button
               >
@@ -48,15 +48,17 @@
 
 <script setup lang="ts">
 import { User, Lock, Warning } from '@element-plus/icons-vue'
+import setting from '@/setting'
 
 import { reactive, ref } from 'vue'
 import { userStore } from '@/stores/modules/user'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 import { getGeneralTime } from '@/utils/time'
 
-let userS = userStore()
-let router = useRouter()
+const userS = userStore()
+const router = useRouter()
+const route = useRoute()
 
 const loginInfo = reactive({
   username: 'admin',
@@ -67,7 +69,7 @@ let isLoading = ref(false)
 //获取vc实例
 const loginForms = ref()
 //请求
-const userLogin = async () => {
+const onUserLogin = async () => {
   //表单校验全部通过再发请求
   await loginForms.value.validate()
 
@@ -75,18 +77,17 @@ const userLogin = async () => {
   userS.userLogin(loginInfo).then(
     (res) => {
       //成功
-      console.log(res)
+      // console.log(res)
 
       //router去home
       ElNotification({
         title: `Hi, ${getGeneralTime()}好`,
         message: '欢迎回来',
-        type: 'success'
+        type: 'success',
+        duration: 2000
       })
-      isLoading.value = false
-      router.push({
-        name: 'layout'
-      })
+      const redirectP: any = route.query.redirect
+      router.push({ path: redirectP || '/' })
     },
     (err) => {
       //失败
@@ -95,7 +96,8 @@ const userLogin = async () => {
       ElNotification({
         title: '登录失败',
         message: '账号或密码错误',
-        type: 'error'
+        type: 'error',
+        duration: 2000
       })
       isLoading.value = false
     }

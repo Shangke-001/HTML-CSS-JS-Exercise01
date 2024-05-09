@@ -3,15 +3,18 @@ import components from '@/components'
 //常量路由
 export const constantRoutes = [
   {
+    //login登录
     path: '/login',
     name: 'login',
     //路由懒加载
     component: () => import('@/views/login/index.vue'),
     meta: {
-      hidden: true
+      hidden: true,
+      title: '登录'
     }
   },
   {
+    //layout首页
     path: '/',
     name: 'layout',
     component: () => import('@/layout/index.vue'),
@@ -33,6 +36,7 @@ export const constantRoutes = [
     ]
   },
   {
+    //screen数字大屏
     path: '/screen',
     name: 'screen',
     meta: {
@@ -43,6 +47,7 @@ export const constantRoutes = [
     component: () => import('@/views/screen/index.vue')
   },
   {
+    //acl权限管理
     path: '/acl',
     name: 'acl',
     meta: {
@@ -86,6 +91,7 @@ export const constantRoutes = [
     ]
   },
   {
+    //product商品管理
     path: '/product',
     name: 'product',
     meta: {
@@ -139,6 +145,7 @@ export const constantRoutes = [
     ]
   },
   {
+    //404
     path: '/404',
     name: '404',
     meta: {
@@ -149,10 +156,12 @@ export const constantRoutes = [
     component: () => import('@/views/404/index.vue')
   },
   {
+    //other
     path: '/:pathMatch(.*)*',
     redirect: '/404',
     name: 'any',
     meta: {
+      title: '404',
       hidden: true
     }
   }
