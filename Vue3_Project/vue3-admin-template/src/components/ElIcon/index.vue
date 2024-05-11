@@ -45,6 +45,9 @@
     <template v-else-if="iconName == 'Plus'">
       <i-ep-plus />
     </template>
+    <template v-else-if="iconName == 'Picture'">
+      <i-ep-picture />
+    </template>
   </el-icon>
 </template>
 

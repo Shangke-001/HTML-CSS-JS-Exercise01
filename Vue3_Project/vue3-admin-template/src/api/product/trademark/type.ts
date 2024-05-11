@@ -5,7 +5,7 @@ interface ResponseData {
 }
 
 //已有品牌数据类型
-interface TradeMark {
+export interface TradeMark {
   id?: number
   tmName: string
   logoUrl: string
@@ -14,7 +14,7 @@ interface TradeMark {
 export type Records = TradeMark[]
 
 //获取的已有全部品牌的数据ts类型
-export interface TradeMarkResponseData extends ResponseData {
+export interface TradeMarkResponseForm extends ResponseData {
   data: {
     records: Records
     total: number
@@ -23,4 +23,8 @@ export interface TradeMarkResponseData extends ResponseData {
     searchCount: boolean
     pages: number
   }
+}
+
+export interface TradeMarkAEDResposeForm extends ResponseData {
+  data: null
 }

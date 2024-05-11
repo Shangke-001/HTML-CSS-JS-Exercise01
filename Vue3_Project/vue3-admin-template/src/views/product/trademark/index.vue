@@ -1,77 +1,100 @@
 <template>
-  <el-card class="trademark-container">
-    <el-button type="primary" :icon="Plus" style="margin-bottom: 15px" @click="addTrademarkItem">
-      商品管理</el-button
-    >
-    <el-table :data="trademarkList" style="width: 100%" border>
-      <el-table-column type="index" label="序号" width="50" />
-      <el-table-column prop="tmName" label="品牌名称" min-width="100" />
-      <el-table-column label="品牌Logo" min-width="300">
-        <template #default="{ row, $index }">
-          <!-- <img :src="row.logoUrl" alt="图片找不到了QAQ" style="height: 100px" /> -->
-          <el-image :src="row.logoUrl" style="height: 75px; border-radius: 10px">
-            <template #error>
-              <div style="background-color: #eee; height: 75px; line-height: 75px; padding: 0 15px">
-                图片找不到了
-              </div>
-            </template>
-          </el-image>
-        </template>
-      </el-table-column>
-      <el-table-column prop="tmName" label="操作" min-width="250">
-        <template #default>
-          <template class="tmName-template">
-            <el-button :icon="Edit" @click="editTrademarkItem"> 编辑 </el-button>
-            <el-button type="danger" :icon="Delete" @click="deleteTrademarkItem"> 删除</el-button>
+  <div>
+    <el-card class="trademark-container">
+      <el-button type="primary" :icon="Plus" style="margin-bottom: 15px" @click="addTrademarkItem">
+        添加品牌</el-button
+      >
+      <el-table :data="trademarkList" style="width: 100%" border>
+        <el-table-column type="index" label="序号" width="50" align="center" />
+        <el-table-column prop="tmName" label="品牌名称" min-width="100" align="center" />
+        <el-table-column label="品牌Logo" min-width="250" align="center">
+          <template #default="{ row, $index }">
+            <!-- <img :src="row.logoUrl" alt="图片找不到了QAQ" style="height: 100px" /> -->
+            <el-image :src="row.logoUrl" style="height: 75px; border-radius: 10px">
+              <template #error>
+                <div class="picture-not-find">
+                  <ElIcon iconName="Picture" style="margin-bottom: 3px"></ElIcon>
+                  图片找不到了
+                </div>
+              </template>
+            </el-image>
           </template>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      v-model:current-page="currentPage"
-      v-model:page-size="pageSize"
-      :page-sizes="[3, 6, 9, 12]"
-      :background="true"
-      layout=" prev, pager, next, jumper, ->, total, sizes "
-      :total="totalNum"
-      style="margin-top: 20px"
-      @size-change="sizeChangeTrademark"
-      @current-change="getCurrentPageTrademark"
-    />
-  </el-card>
+        </el-table-column>
+        <el-table-column prop="tmName" label="操作" min-width="250" align="center">
+          <template #default="{ row, $index }">
+            <el-button :icon="Edit" @click="editTrademarkItem(row)"> 编辑 </el-button>
+            <el-popconfirm
+              confirm-button-text="是的"
+              cancel-button-text="不了"
+              title="确定要删除吗?"
+              @confirm="deleteTrademarkItem(row.id)"
+            >
+              <template #reference>
+                <el-button type="danger" :icon="Delete"> 删除</el-button>
+              </template>
+            </el-popconfirm>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[3, 6, 9, 12]"
+        :background="true"
+        layout=" prev, pager, next, jumper, ->, total, sizes "
+        :total="totalNum"
+        style="margin-top: 20px"
+        @size-change="sizeChangeTrademark"
+        @current-change="getCurrentPageTrademark"
+      />
+    </el-card>
 
-  <el-dialog v-model="dialogVisible" title="添加品牌" width="500">
-    <el-form :model="dialogForm">
-      <el-form-item label="品牌名称" label-width="90">
-        <el-input
-          v-model="dialogForm.brandName"
-          autocomplete="off"
-          aria-placeholder="请输入品牌名称"
-        />
-      </el-form-item>
-      <el-form-item label="品牌Logo" label-width="90">
-        <el-upload class="avatar-uploader" action="" :show-file-list="false">
-          <img v-if="dialogForm.logoImg" :src="dialogForm.logoImg" class="avatar" />
-          <div :iconName="Plus" v-else class="avatar-uploader-icon">上传品牌Logo图片</div>
-        </el-upload>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <div>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"> 确定</el-button>
-      </div>
-    </template>
-  </el-dialog>
+    <el-dialog v-model="dialogVisible" :title="dialogForm.id ? '修改品牌' : '添加品牌'" width="500">
+      <el-form :model="dialogForm" :rules="rules" ref="tmForms">
+        <el-form-item label="品牌名称" label-width="90" prop="tmName">
+          <el-input
+            v-model="dialogForm.tmName"
+            autocomplete="off"
+            aria-placeholder="请输入品牌名称"
+          />
+        </el-form-item>
+        <el-form-item label="品牌Logo" label-width="90" prop="logoUrl">
+          <!-- action: 图片上传请求地址 -->
+          <el-upload
+            class="avatar-uploader"
+            action="/api/admin/product/fileUpload"
+            :show-file-list="false"
+            :before-upload="beforeAvatarUpload"
+            :on-success="handleAvatarSuccess"
+          >
+            <img v-if="dialogForm.logoUrl" :src="dialogForm.logoUrl" class="avatar" />
+            <div v-else class="avatar-uploader-icon">上传品牌Logo图片</div>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div>
+          <el-button @click="dialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="confirmBtn"> 确定</el-button>
+        </div>
+      </template>
+    </el-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import ElIcon from '@/components/ElIcon/index.vue'
-import { ref, reactive, onMounted } from 'vue'
-import { reqTrademarkList } from '@/api/product/trademark'
-import type { Records } from '@/api/product/trademark/type'
+import { ref, reactive, onMounted, nextTick } from 'vue'
+import {
+  reqTrademarkList,
+  reqAddOrEditTrademark,
+  reqDeleteTrademark
+} from '@/api/product/trademark'
+import type { Records, TradeMark } from '@/api/product/trademark/type'
+import type { UploadProps } from 'element-plus'
 
+//#region 品牌展示部分
 let currentPage = ref<number>(1)
 let pageSize = ref<number>(3)
 let totalNum = ref<number>(0)
@@ -97,22 +120,126 @@ const sizeChangeTrademark = () => {
 onMounted(() => {
   getCurrentPageTrademark()
 })
+//#endregion
 
-//对话框增删改
+//#region 品牌增删改部分
 let dialogVisible = ref<boolean>(false)
-let dialogForm = reactive<any>({
-  brandName: '',
-  logoImg: ''
+let dialogForm = reactive<TradeMark>({
+  tmName: '',
+  logoUrl: ''
 })
-const addTrademarkItem = () => {
-  dialogVisible.value = true
+//表单校验
+const tmForms = ref()
+const validateTmName = (rule: any, value: any, callback: any) => {
+  if (value.trim().length >= 2) {
+    callback()
+  } else {
+    callback(new Error('品牌名称需大于等于两位'))
+  }
 }
-const editTrademarkItem = () => {
-  dialogVisible.value = true
+const rules = {
+  tmName: [{ validator: validateTmName, trigger: 'blur' }],
+  logoUrl: [{ required: true, message: '请上传品牌Logo', trigger: 'blur' }]
 }
-const deleteTrademarkItem = () => {
-  dialogVisible.value = true
+
+//上传头像：通过el-upload发请求
+//before-upload文件上传之前的钩子，需要检查文件格式与文件大小
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type == 'image/jpeg' || rawFile.type == 'image/png' || rawFile.type == 'image/gif') {
+    if (rawFile.size / 1024 / 1024<4>) {
+      return true
+    } else {
+      ElMessage({
+        type: 'error',
+        message: '上传文件大小小于4M'
+      })
+      return false
+    }
+  } else {
+    ElMessage({
+      type: 'error',
+      message: '上传文件格式需为jpg|png|gif'
+    })
+    return false
+  }
 }
+//on-success文件上传成功之后的钩子，
+const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
+  dialogForm.logoUrl = response.data
+  //清除校验信息
+  tmForms.value.clearValidate('logoUrl')
+}
+
+const addTrademarkItem = async () => {
+  dialogVisible.value = true
+  //清空收集的数据
+  dialogForm.id = 0
+  dialogForm.tmName = ''
+  dialogForm.logoUrl = ''
+
+  //清除校验信息
+  tmForms.value?.clearValidate('tmName')
+  tmForms.value?.clearValidate('logoUrl')
+}
+const editTrademarkItem = (row: TradeMark) => {
+  dialogVisible.value = true
+  //将原本的数据混入到dialogForm
+  Object.assign(dialogForm, row)
+  // console.log(dialogForm)
+  //清空校验规则错误提示信息
+  nextTick(() => {
+    tmForms.value.clearValidate('tmName')
+    tmForms.value.clearValidate('logoUrl')
+  })
+}
+const deleteTrademarkItem = async (id: number) => {
+  const result = await reqDeleteTrademark(id)
+  if (result.code == 200) {
+    ElMessage({
+      showClose: true,
+      message: '删除品牌成功',
+      type: 'success'
+    })
+    //成功才需要，再次获取已有的品牌数据
+    getCurrentPageTrademark(
+      trademarkList.value.length > 1 ? currentPage.value : currentPage.value - 1
+    )
+  } else {
+    ElMessage({
+      showClose: true,
+      message: '删除品牌失败',
+      type: 'error'
+    })
+  }
+}
+
+//确认按钮
+const confirmBtn = async () => {
+  //确认之前校验表单
+  await tmForms.value.validate()
+
+  dialogVisible.value = false
+  const result = await reqAddOrEditTrademark(dialogForm)
+  //console.log(result)
+  if (result.code == 200) {
+    //添加成功
+    ElMessage({
+      showClose: true,
+      message: dialogForm.id ? '修改品牌成功' : '添加品牌成功',
+      type: 'success'
+    })
+    //刷新一下数据
+    getCurrentPageTrademark(currentPage.value)
+  } else {
+    //添加失败
+    ElMessage({
+      showClose: true,
+      message: dialogForm.id ? '修改品牌失败' : '添加品牌失败',
+      type: 'error'
+    })
+  }
+}
+//#endregion
 </script>
 
 <script lang="ts">
@@ -124,9 +251,15 @@ export default {
 <style scoped lang="scss">
 .trademark-container {
   padding: 10px;
-  .tmName-template {
+  .picture-not-find {
+    background-color: #f1f1f1;
+    height: 75px;
+    padding: 0 15px;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    color: #aaa;
   }
 }
 </style>
