@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import ElIcon from '@/components/ElIcon/index.vue'
 import { ArrowRight } from '@element-plus/icons-vue'
 import layoutSettingStore from '@/stores/modules/setting'
 import { useRoute } from 'vue-router'

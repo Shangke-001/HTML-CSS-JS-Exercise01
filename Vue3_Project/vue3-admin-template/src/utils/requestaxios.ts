@@ -27,6 +27,12 @@ requestaxios.interceptors.response.use(
     return response.data
   },
   (error) => {
+    if (error.code == 'ECONNABORTED') {
+      //这个问题是后端要处理的，现在只能写成这样
+      //没有数据照道理应该返回空数组，但是它直接不做反馈，只能当请求超时处理
+      ElMessage.error('请求超时')
+      return Promise.reject(error)
+    }
     let msg = ''
     const status = error.response.status
     switch (status) {

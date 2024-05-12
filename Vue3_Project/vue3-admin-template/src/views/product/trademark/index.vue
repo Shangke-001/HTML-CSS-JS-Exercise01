@@ -5,7 +5,7 @@
         添加品牌</el-button
       >
       <el-table :data="trademarkList" style="width: 100%" border>
-        <el-table-column type="index" label="序号" width="50" align="center" />
+        <el-table-column type="index" label="序号" width="60" align="center" />
         <el-table-column prop="tmName" label="品牌名称" min-width="100" align="center" />
         <el-table-column label="品牌Logo" min-width="250" align="center">
           <template #default="{ row, $index }">
@@ -20,7 +20,7 @@
             </el-image>
           </template>
         </el-table-column>
-        <el-table-column prop="tmName" label="操作" min-width="250" align="center">
+        <el-table-column label="操作" min-width="250" align="center">
           <template #default="{ row, $index }">
             <el-button :icon="Edit" @click="editTrademarkItem(row)"> 编辑 </el-button>
             <el-popconfirm
@@ -52,11 +52,7 @@
     <el-dialog v-model="dialogVisible" :title="dialogForm.id ? '修改品牌' : '添加品牌'" width="500">
       <el-form :model="dialogForm" :rules="rules" ref="tmForms">
         <el-form-item label="品牌名称" label-width="90" prop="tmName">
-          <el-input
-            v-model="dialogForm.tmName"
-            autocomplete="off"
-            aria-placeholder="请输入品牌名称"
-          />
+          <el-input v-model="dialogForm.tmName" autocomplete="off" placeholder="请输入品牌名称" />
         </el-form-item>
         <el-form-item label="品牌Logo" label-width="90" prop="logoUrl">
           <!-- action: 图片上传请求地址 -->
@@ -84,7 +80,6 @@
 
 <script setup lang="ts">
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
-import ElIcon from '@/components/ElIcon/index.vue'
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import {
   reqTrademarkList,
@@ -146,7 +141,7 @@ const rules = {
 //before-upload文件上传之前的钩子，需要检查文件格式与文件大小
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   if (rawFile.type == 'image/jpeg' || rawFile.type == 'image/png' || rawFile.type == 'image/gif') {
-    if (rawFile.size / 1024 / 1024<4>) {
+    if (rawFile.size / 1024 / 1024 < 4) {
       return true
     } else {
       ElMessage({

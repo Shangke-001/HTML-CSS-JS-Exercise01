@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import ElIcon from '@/components/ElIcon/index.vue'
 import { RefreshRight, FullScreen, Tools } from '@element-plus/icons-vue'
 import layoutSettingStore from '@/stores/modules/setting'
 import { userStore } from '@/stores/modules/user'
