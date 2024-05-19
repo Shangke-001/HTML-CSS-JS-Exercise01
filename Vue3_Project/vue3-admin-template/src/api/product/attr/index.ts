@@ -1,5 +1,10 @@
 import requestaxios from '@/utils/requestaxios'
-import type { CategoryResponseData, AttrResponseData, Attr } from './type'
+import type {
+  CategoryResponseData,
+  AttrResponseData,
+  Attr,
+  AttrSaveOrDeleteResposeForm
+} from './type'
 enum API {
   ATTR_Category1 = '/admin/product/getCategory1',
   ATTR_Category2 = '/admin/product/getCategory2/',
@@ -21,7 +26,7 @@ export const reqAttrList = (c1Id: number | string, c2Id: number | string, c3Id: 
   requestaxios.get<any, AttrResponseData>(API.ATTR_URL + `${c1Id}/${c2Id}/${c3Id}`)
 
 export const reqAttrSave = (saveAttr: Attr) =>
-  requestaxios.post<any, any>(API.ATTR_ADD_EDIT, saveAttr)
+  requestaxios.post<any, AttrSaveOrDeleteResposeForm>(API.ATTR_ADD_EDIT, saveAttr)
 
 export const reqAttrDelete = (attrId: number) =>
-  requestaxios.delete<any, any>(API.ATTR_DELETE + `${attrId}`)
+  requestaxios.delete<any, AttrSaveOrDeleteResposeForm>(API.ATTR_DELETE + `${attrId}`)

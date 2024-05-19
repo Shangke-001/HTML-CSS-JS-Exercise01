@@ -1,4 +1,5 @@
 import components from '@/components'
+import router from '.'
 
 //常量路由
 export const constantRoutes = [
@@ -47,9 +48,23 @@ export const constantRoutes = [
     component: () => import('@/views/screen/index.vue')
   },
   {
+    //404
+    path: '/404',
+    name: '404',
+    meta: {
+      title: '404',
+      hidden: true,
+      icon: 'User'
+    },
+    component: () => import('@/views/404/index.vue')
+  }
+]
+
+export const asyncRoutes = [
+  {
     //acl权限管理
     path: '/acl',
-    name: 'acl',
+    name: 'Acl',
     meta: {
       title: '权限管理',
       hidden: false,
@@ -60,7 +75,7 @@ export const constantRoutes = [
     children: [
       {
         path: '/acl/user',
-        name: 'user',
+        name: 'User',
         meta: {
           title: '用户管理',
           hidden: false,
@@ -70,7 +85,7 @@ export const constantRoutes = [
       },
       {
         path: '/acl/role',
-        name: 'role',
+        name: 'Role',
         meta: {
           title: '角色管理',
           hidden: false,
@@ -80,7 +95,7 @@ export const constantRoutes = [
       },
       {
         path: '/acl/premission',
-        name: 'premission',
+        name: 'Permission',
         meta: {
           title: '菜单管理',
           hidden: false,
@@ -93,7 +108,7 @@ export const constantRoutes = [
   {
     //product商品管理
     path: '/product',
-    name: 'product',
+    name: 'Product',
     meta: {
       title: '商品管理',
       hidden: false,
@@ -104,7 +119,7 @@ export const constantRoutes = [
     children: [
       {
         path: '/product/trademark',
-        name: 'trademark',
+        name: 'Trademark',
         meta: {
           title: '品牌管理',
           hidden: false,
@@ -114,7 +129,7 @@ export const constantRoutes = [
       },
       {
         path: '/product/attr',
-        name: 'attr',
+        name: 'Attr',
         meta: {
           title: '属性管理',
           hidden: false,
@@ -124,7 +139,7 @@ export const constantRoutes = [
       },
       {
         path: '/product/spu',
-        name: 'spu',
+        name: 'Spu',
         meta: {
           title: 'Spu管理',
           hidden: false,
@@ -134,7 +149,7 @@ export const constantRoutes = [
       },
       {
         path: '/product/sku',
-        name: 'sku',
+        name: 'Sku',
         meta: {
           title: 'Sku管理',
           hidden: false,
@@ -143,18 +158,10 @@ export const constantRoutes = [
         component: () => import('@/views/product/sku/index.vue')
       }
     ]
-  },
-  {
-    //404
-    path: '/404',
-    name: '404',
-    meta: {
-      title: '404',
-      hidden: true,
-      icon: 'User'
-    },
-    component: () => import('@/views/404/index.vue')
-  },
+  }
+]
+
+export const anyRoutes = [
   {
     //other
     path: '/:pathMatch(.*)*',
@@ -166,3 +173,22 @@ export const constantRoutes = [
     }
   }
 ]
+
+//asnycRoute动态路由, route用户的权限string[]
+export function filterAsyncRoute(asnycRoute: any[], routes: string[]) {
+  return asnycRoute.filter((route: any) => {
+    if (routes.includes(route.name)) {
+      if (route.children && route.children.length > 0) {
+        route.children = filterAsyncRoute(route.children, routes)
+      }
+      return true
+    }
+  })
+}
+
+//注册路由
+export const addAsyncAnyRoutes = (routes: any[]) => {
+  routes.forEach((route) => {
+    router.addRoute(route)
+  })
+}

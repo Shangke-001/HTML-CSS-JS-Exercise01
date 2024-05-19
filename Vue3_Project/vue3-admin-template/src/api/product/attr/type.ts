@@ -36,3 +36,7 @@ export type AttrList = Attr[]
 export interface AttrResponseData extends ResponseData {
   data: AttrList
 }
+
+export interface AttrSaveOrDeleteResposeForm extends ResponseData {
+  data: null
+}

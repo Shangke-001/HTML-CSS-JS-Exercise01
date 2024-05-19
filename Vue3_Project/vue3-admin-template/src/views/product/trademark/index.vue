@@ -1,9 +1,15 @@
 <template>
   <div>
     <el-card class="trademark-container">
-      <el-button type="primary" :icon="Plus" style="margin-bottom: 15px" @click="addTrademarkItem">
-        添加品牌</el-button
+      <el-button
+        type="primary"
+        :icon="Plus"
+        style="margin-bottom: 15px"
+        @click="addTrademarkItem"
+        v-has="'btn.Trademark.add'"
       >
+        添加品牌
+      </el-button>
       <el-table :data="trademarkList" style="width: 100%" border>
         <el-table-column type="index" label="序号" width="60" align="center" />
         <el-table-column prop="tmName" label="品牌名称" min-width="100" align="center" />
@@ -22,7 +28,9 @@
         </el-table-column>
         <el-table-column label="操作" min-width="250" align="center">
           <template #default="{ row, $index }">
-            <el-button :icon="Edit" @click="editTrademarkItem(row)"> 编辑 </el-button>
+            <el-button :icon="Edit" @click="editTrademarkItem(row)" v-has="'btn.Trademark.update'">
+              编辑
+            </el-button>
             <el-popconfirm
               confirm-button-text="是的"
               cancel-button-text="不了"
@@ -30,7 +38,9 @@
               @confirm="deleteTrademarkItem(row.id)"
             >
               <template #reference>
-                <el-button type="danger" :icon="Delete"> 删除</el-button>
+                <el-button type="danger" :icon="Delete" v-has="'btn.Trademark.remove'">
+                  删除
+                </el-button>
               </template>
             </el-popconfirm>
           </template>
@@ -133,7 +143,7 @@ const validateTmName = (rule: any, value: any, callback: any) => {
   }
 }
 const rules = {
-  tmName: [{ validator: validateTmName, trigger: 'blur' }],
+  tmName: [{ required: true, validator: validateTmName, trigger: 'blur' }],
   logoUrl: [{ required: true, message: '请上传品牌Logo', trigger: 'blur' }]
 }
 

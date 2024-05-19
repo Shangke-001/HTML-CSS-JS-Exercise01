@@ -28,7 +28,7 @@ router.beforeEach(async (to, from, next) => {
       } else {
         try {
           await userS.userInfo()
-          next()
+          next({ ...to }) //刷新的时候是异步路由，有可能获取到用户信息但是异步路由没有加载完毕，出现空白效果，因此需要一直获取
         } catch (error) {
           //token过期要logout
           await userS.userLogout()

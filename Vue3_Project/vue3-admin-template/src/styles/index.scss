@@ -1,2 +1,11 @@
 //全局样式
 @import 'scss-reset/reset';
+//暗黑模式样式
+
+@import 'element-plus/theme-chalk/dark/css-vars.css';
+
+html.dark {
+  /* 自定义深色背景颜色 */
+  --el-bg-color: #272c36;
+  --el-bg-color-overlay: #272c36;
+}

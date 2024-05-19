@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { User, Lock, Warning } from '@element-plus/icons-vue'
+import { User, Lock } from '@element-plus/icons-vue'
 import setting from '@/setting'
 
 import { reactive, ref } from 'vue'

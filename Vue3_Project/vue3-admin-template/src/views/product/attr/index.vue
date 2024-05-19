@@ -9,6 +9,7 @@
           style="margin-bottom: 15px"
           :disabled="categoryS.c3Id ? false : true"
           @click="addAttr"
+          v-has="'btn.Attr.add'"
         >
           添加属性
         </el-button>
@@ -31,7 +32,9 @@
           </el-table-column>
           <el-table-column label="操作" min-width="200" align="center">
             <template #default="{ row, $index }">
-              <el-button :icon="Edit" @click="editAttr(row)"> 编辑 </el-button>
+              <el-button :icon="Edit" @click="editAttr(row)" v-has="'btn.Attr.update'">
+                编辑
+              </el-button>
               <el-popconfirm
                 confirm-button-text="是的"
                 cancel-button-text="不了"
@@ -39,7 +42,9 @@
                 @confirm="deleteAttr(row)"
               >
                 <template #reference>
-                  <el-button type="danger" :icon="Delete"> 删除</el-button>
+                  <el-button type="danger" :icon="Delete" v-has="'btn.Attr.remove'">
+                    删除
+                  </el-button>
                 </template>
               </el-popconfirm>
             </template>
@@ -80,6 +85,7 @@
                 style="width: 250px"
                 v-if="row.flag"
                 @blur="toLook(row, $index)"
+                @keyup.enter="toEnterNext($index)"
               ></el-input>
               <div v-else @click="toEdit(row, $index)">{{ row.valueName }}</div>
             </template>
@@ -92,7 +98,13 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-button type="primary" @click="attrSave">保存</el-button>
+        <el-button
+          type="primary"
+          @click="attrSave"
+          :disabled="!(attrForm.attrValueList.length > 0)"
+        >
+          保存
+        </el-button>
         <el-button @click="scene = 0">取消</el-button>
       </div>
     </el-card>
@@ -100,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch, nextTick } from 'vue'
+import { reactive, ref, watch, nextTick, onBeforeUnmount, onMounted } from 'vue'
 import { Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { reqAttrList, reqAttrSave, reqAttrDelete } from '@/api/product/attr'
 import type { Attr, AttrValue, AttrList } from '@/api/product/attr/type'
@@ -153,7 +165,10 @@ const addAttr = () => {
   scene.value = 1
 }
 const editAttr = (row: Attr) => {
-  Object.assign(attrForm, row)
+  //这是一个浅拷贝，点击取消修改的页面数据会变，但服务器数据其实没变
+  //Object.assign(attrForm, row)
+  //所以需要用深拷贝
+  Object.assign(attrForm, JSON.parse(JSON.stringify(row)))
   scene.value = 1
 }
 const deleteAttr = async (row: Attr) => {
@@ -175,6 +190,9 @@ const addAttrValue = () => {
   attrForm.attrValueList.push({
     valueName: '',
     flag: true //控制每一个属性值编辑模式与切换模式的切换
+  })
+  nextTick(() => {
+    inputList.value[attrForm.attrValueList.length - 1].focus()
   })
 }
 const deleteAttrValue = ($index: number) => {
@@ -236,7 +254,19 @@ const toEdit = (row: AttrValue, $index: number) => {
     inputList.value[$index].focus()
   })
 }
+const toEnterNext = ($index: number) => {
+  //先让目前的input框失焦
+  inputList.value[$index].blur()
+  //再加一个input框
+  addAttrValue()
+}
 //#endregion
+
+//切换路由，组件销毁时，清空所有数据
+onBeforeUnmount(() => {
+  categoryS.$reset()
+  //销毁监听事件
+})
 </script>
 
 <script lang="ts">

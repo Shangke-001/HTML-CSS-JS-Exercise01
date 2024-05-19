@@ -2,9 +2,11 @@
   <el-container class="home-container">
     <el-aside :width="layoutSettingS.isCollapse ? '70px' : '250px'" class="home-menu">
       <el-scrollbar>
+        <!-- :router="true"  //启用router 以 index 作为 path 进行路由跳转
+             :default-active="route.path" //默认激活的菜单项 -->
         <el-menu
           text-color="#9e9c9c"
-          background-color="#001529"
+          background-color="$base-menu-background-color"
           active-text-color="#fff"
           class="home-menu-items"
           :collapse="layoutSettingS.isCollapse"
@@ -51,10 +53,9 @@ const route = useRoute()
 
 <style scoped lang="scss">
 .home-container {
-  background-color: #eee;
   height: 100vh;
   .home-menu {
-    background-color: #001529;
+    background-color: $base-menu-background-color;
     padding: 10px 0;
     transition: all 0.3s;
     .home-menu-items {
@@ -62,12 +63,10 @@ const route = useRoute()
     }
   }
   .home-content-title {
-    background-color: #fff;
     box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.08);
     z-index: 999;
   }
   .home-content {
-    background-color: #fff;
   }
 }
 </style>
