@@ -1,5 +1,5 @@
 <template>
-  <div class="screen-container">
+  <div class="screen-container" v-if="screenRefresh">
     <div class="top">
       <Top></Top>
     </div>
@@ -29,15 +29,23 @@ import Rank from './components/bottom/Rank.vue'
 import Year from './components/bottom/Year.vue'
 import Consume from './components/bottom/Consume.vue'
 
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
+
+let screenRefresh = ref(true)
 
 //rem大小计算
 let remFontsize = ref((document.body.clientWidth / 1920) * 16)
 document.documentElement.style.fontSize = remFontsize.value + 'px'
+
 document.body.onresize = () => {
   remFontsize.value = (document.body.clientWidth / 1920) * 16
   document.documentElement.style.fontSize = remFontsize.value + 'px'
-  window.location.reload()
+  // window.location.reload()
+  //最好是销毁组件重新挂载
+  screenRefresh.value = false
+  nextTick(() => {
+    screenRefresh.value = true
+  })
 }
 </script>
 

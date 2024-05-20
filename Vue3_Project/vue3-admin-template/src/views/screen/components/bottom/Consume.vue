@@ -39,7 +39,7 @@ onMounted(() => {
     radar: {
       // shape: 'circle',
       center: ['50%', '50%'], //雷达图的中心位置
-      radius: '60%', // 半径
+      radius: '50%', // 半径
       indicator: [
         { name: '门票' },
         { name: '文创' },
