@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="father">
+      <div class="son"></div>
+    </div>
+  </body>
+</html>
+
+<style>
+  .father {
+    background-color: pink;
+    height: 300px;
+    width: 700px;
+    /*方法1：flex
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    */
+    /*方法2：position+margin:auto
+    position: relative;
+    */
+    /*方法3：position+transform
+    
+    */
+    position: relative;
+  }
+  .son {
+    background-color: skyblue;
+    height: 150px;
+    width: 250px;
+    /*方法2：position+margin:auto
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    */
+    /*
+    position: absolute;
+    */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
